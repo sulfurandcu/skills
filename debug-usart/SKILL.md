@@ -1,46 +1,45 @@
 ---
 name: debug-usart
 description: >-
-  Runs a Python UART/serial helper (listen on a COM/tty port, send from stdin,
-  or bridge two ports) using pyserial. Use when the user works with serial/UART,
-  COM ports, RS-232, USB-serial adapters, firmware logs, AT commands, or asks to
-  monitor or forward serial data on Windows or Linux.
+  使用 pyserial 运行 Python UART/串口辅助工具（监听 COM/tty 端口、从 stdin 发送、
+  或桥接两个端口）。当用户使用串口/UART、COM 端口、RS-232、USB 转串口适配器、
+  固件日志、AT 指令，或要求在 Windows 或 Linux 上监控或转发串口数据时使用此技能。
 ---
 
-# UART serial proxy
+# UART 串口代理
 
-## Location
+## 位置
 
-- Bundled script: `./usart_proxy.py` in this skill directory
-- Dependency: `pip install pyserial`
+- 捆绑脚本：本技能目录下的 `./usart_proxy.py`
+- 依赖：`pip install pyserial`
 
-## Terminal mode (listen + send)
+## 终端模式（监听 + 发送）
 
-Background thread prints received data; type in the terminal to send lines to the port.
+后台线程打印接收到的数据；在终端中输入内容即可按行发送到串口。
 
 ```bash
 python ./usart_proxy.py -p COM3 -b 115200
 ```
 
-Linux:
+Linux：
 
 ```bash
 python ./usart_proxy.py -p /dev/ttyUSB0 -b 921600
 ```
 
-- `--hex`: print received bytes as hex
-- `--raw-stdin`: send stdin byte-by-byte instead of line-based text
-- Optional: `--bytesize`, `--parity` (N/E/O/M/S), `--stopbits` (1 / 1.5 / 2)
+- `--hex`：以十六进制格式打印接收到的字节
+- `--raw-stdin`：逐字节发送 stdin 而不是按行发送文本
+- 可选：`--bytesize`、`--parity`（N/E/O/M/S）、`--stopbits`（1 / 1.5 / 2）
 
-## Bridge mode (two ports)
+## 桥接模式（两个端口）
 
 ```bash
 python ./usart_proxy.py -p COM3 --bridge COM4 -b 115200
 ```
 
-Ctrl+C stops. Both ends use the same baud and framing in this script.
+按 Ctrl+C 停止。此脚本中两端使用相同的波特率和帧格式。
 
-## Agent notes
+## Agent 注意事项
 
-- Windows ports: `COMn`; ensure the port is not open in another app.
-- If baud or framing must differ per port, extend the script with separate arguments.
+- Windows 端口：`COMn`；确保端口未被其他应用程序占用。
+- 如果每个端口需要不同的波特率或帧格式，请使用单独的参数扩展脚本。
